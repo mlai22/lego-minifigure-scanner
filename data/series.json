@@ -1,0 +1,16 @@
+{
+  "series": [
+    {
+      "id": "shrek-71053",
+      "name": "Shrek Series",
+      "setNumber": "71053",
+      "dataFile": "data/shrek-71053.json"
+    },
+    {
+      "id": "series-29-71052",
+      "name": "Series 29",
+      "setNumber": "71052",
+      "dataFile": "data/series-29-71052.json"
+    }
+  ]
+}

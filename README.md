@@ -1,86 +1,117 @@
-# LEGO Shrek Minifigure Scanner
+# LEGO Minifigure Scanner
 
-A mobile-first static scanner for LEGO Collectible Minifigures Shrek Series 71053. HTML5, CSS3, vanilla JavaScript, and ZXing Browser. No framework, backend, database server, npm install, or build step.
+A mobile-first static application for identifying LEGO Collectible Minifigure blind boxes using their Data Matrix codes. Choose a series, start the rear camera, and scan a square code. Manual entry uses the same parser. Unique matches from other registered series offer a switch; ambiguous or unknown codes never guess a character.
+
+**Live site:** https://mlai22.github.io/lego-shrek-scanner/
+
+**Repository:** https://github.com/mlai22/lego-shrek-scanner
+
+The existing public URL is preserved. The application and local project are now general-purpose, not Shrek-specific.
+
+## Stack and files
+
+HTML5, CSS3, vanilla JavaScript ES modules, and ZXing Browser 0.1.5. No build, backend, API keys, package install, database server, or analytics.
+
+```text
+lego-minifigure-scanner/
+├── index.html
+├── app.js
+├── style.css
+├── data/
+│   ├── series.json
+│   ├── shrek-71053.json
+│   └── series-29-71052.json
+├── tests/
+│   └── parser-tests.html
+├── assets/
+│   └── README.md
+├── .nojekyll
+└── README.md
+```
+
+## Supported data
+
+| Series | Set | Characters | Package codes | Region |
+| --- | --- | --- | --- | --- |
+| Shrek Series | 71053 | 12 | 12 | North America |
+| Series 29 | 71052 | 12 | 24 | UK / Europe, groups EU-A and EU-B |
+
+Mappings and verification dates are supplied in the project specification and retained exactly in JSON. They agree with the [published BrickFan table](https://brick.fan/minifigures/scan) inspected during the initial implementation. They have not been independently confirmed by opening physical boxes. No additional codes have been inferred. `sourceGroup` preserves the supplied production-group label; it is not interpreted as a geographic region.
+
+A character can have multiple package codes. Each mapping includes `code`, `character`, `region`, and optional `sourceGroup`. Database metadata includes `id`, `name`, `setNumber`, `dataVersion`, and `lastVerified`. Shrek’s supplied date is `2026-09-16`; Series 29’s is month-only `2026-09`. Neither is represented as a new physical verification.
+
+## Parser and identification
+
+`extractPackageCode(rawText, mappings)` searches the entire text for known seven-digit codes, allowing letters, whitespace, punctuation, symbology prefixes, and suffixes. For example `ABC6603327XYZ123` works. A known code inside a longer run of digits does **not** match: `16634901` must not become `6634901`.
+
+`resolveScan` checks all loaded databases. Exactly one mapping produces FOUND or DIFFERENT_SERIES. Multiple distinct mappings produce AMBIGUOUS_CODE, including collisions across series, even if the selected series has a match. Repeated occurrences of the same package code are one candidate. Identical duplicate database rows are collapsed; contradictory rows remain ambiguous. Unknown raw text is shown safely as text and can be copied; it is not stored in history or sent anywhere.
+
+All registered databases load before identification is enabled, so failed cross-series loading cannot conceal ambiguity. Loading has a timeout and a retry control. Empty mapping arrays are valid and display “Package code data for this series has not been added yet.” Future unknown region/run codes remain unknown; numeric proximity and ordering are never used.
+
+## Camera and browser compatibility
+
+The exact pinned [ZXing Browser v0.1.5](https://github.com/zxing-js/browser/tree/v0.1.5) API was verified from its source and downloaded UMD bundle:
+
+- `BrowserDatamatrixCodeReader` uses the Data Matrix reader exclusively.
+- `decodeFromStream(stream, video, callback)` supports continuous camera decoding and returns stop controls.
+- The app uses modern `navigator.mediaDevices.getUserMedia`, with `audio: false` and `facingMode: { ideal: 'environment' }`.
+- The video is muted, autoplay, and `playsinline`, including the inline attribute needed for mobile playback.
+- Modern iPhone Safari and Android Chrome implement the required [getUserMedia API](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia) and [facingMode constraints](https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints/facingMode). This is API/source compatibility verification, not a claim that physical phones were tested.
+
+The library is loaded on demand from `https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/zxing-browser.min.js` with a pinned SHA-384 integrity hash. Changing versions requires recalculating the hash and retesting. The bundle is Apache-2.0 licensed. No QR-only reader, legacy callback getUserMedia, or deprecated clipboard API is used.
+
+Permission is requested only after Start Scanner (or an explicit Scan Another Box restart). No camera is requested on page load, series selection, or manual lookup. The camera stops after decoding, on Stop Camera, Change Series, restart, hidden page, page exit, or errors. Pending permission results from a cancelled session are stopped immediately. Each session owns a separate video node, preventing delayed cleanup from disrupting a newer preview. A token invalidates repeated callbacks after a result.
+
+Rear lens choice and close focus depend on device/browser hardware. Start 10–20 cm away with good light. Try a different camera with the selector if available. Torch and continuous focus are offered only when the device exposes them. The square guide is visual guidance; the full frame is decoded. Manual lookup remains available if permission is denied or the scanner CDN fails.
+
+## History, collection, and privacy
+
+History stores the latest 20 successful camera/manual identifications (including unique cross-series detections), with character, series, set number, package code, region, and timestamp. Clear History removes history without clearing collections. Unknown or ambiguous raw strings are not persisted.
+
+Collections are separate for each series and use unique character names, so alternate production codes do not duplicate checklist entries. Add to Collection is an explicit action; scanning does not silently collect a figure. Checkboxes allow manual changes. Renaming a character in JSON can require migrating existing collection names.
+
+Both use this origin’s `localStorage`, under `minifigure-scanner.v1`. There is no account, sync, or server storage. Browser storage errors fall back to session memory and show a warning. Clearing browser site data removes history and collections. LocalStorage is origin-scoped: other applications on the same GitHub Pages hostname technically share access; the unique key prevents accidental collisions, not same-origin script access.
+
+Camera frames are processed locally. Frames, raw text, history, and collections are not uploaded. The host and jsDelivr receive ordinary page/resource requests. No analytics, tracking, external fonts, or character images are included. Internet access is required for initial loading; offline reload is not supported.
+
+## Update mappings
+
+Edit the appropriate file in `data/`. Add a mapping row using a genuinely verified code and its correct region. Multiple rows can share a character name. Never extrapolate an apparent sequence or label an uncertain European code North American. Update `dataVersion` and `lastVerified` only to reflect actual data changes and verification. Keep existing valid codes and production groups.
+
+## Add a future series
+
+1. Create `data/series-30.json`, using the same schema as an existing database. Give it a unique ID, accurate name/set number (or `null` if unknown), data version, verification date, and a `mappings` array. An empty array is supported. Do not ship placeholder codes.
+2. Add `{ "id": "series-30", "name": "Series 30", "setNumber": null, "dataFile": "data/series-30.json" }` to `data/series.json`.
+3. Ensure ID, name, and set number match in both files. Keep filenames within `data/` using lowercase letters, numbers, and hyphens.
+4. Run the tests. Cards, global detection, details, and checklists automatically use the new data. No scanner-code change is needed.
 
 ## Run locally
 
-From this directory:
-
-```sh
-python3 -m http.server 8080
+```bash
+cd lego-minifigure-scanner
+python3 -m http.server 8000
 ```
 
-Open http://localhost:8080. Do not open `index.html` using `file://`: fetching the JSON requires HTTP. Camera access works on localhost or HTTPS. A phone visiting a computer’s plain-HTTP LAN address is not a secure context; use an HTTPS deployment for phone testing.
+Open http://localhost:8000. Open http://localhost:8000/tests/parser-tests.html to run tests. Do not use `file://`: ES module imports and JSON fetching require HTTP. Camera access generally requires **HTTPS or localhost**. A phone opening a computer’s plain HTTP LAN address usually cannot use the camera; use the deployed HTTPS URL.
+
+## Tests and release checks
+
+`tests/parser-tests.html` imports production functions, automatically loads every registered database, tests every mapping, and tests the specified sample payloads, empty/malformed/unknown input, punctuation, whitespace, embedded text, longer numeric strings, duplicates, conflicting mappings, cross-series ambiguity, alternate codes, empty databases, new-series fixtures, and invalid schemas. It displays pass/fail counts without changing storage or requesting camera access.
+
+Practical checks: select each series; enter `6634901`, `ABC6603327XYZ123`, `6605257`, `9999999`, and `6634901 6603327`; switch after cross-series detection; add/check/uncheck collection items; reload to check persistence; create 21 scans to verify the history cap; clear history and confirm collections remain. Inspect Scanner Details and browser console. Test database/CDN failure, storage unavailability, permission denial, cancelled permission, rapid restart, and page hiding. Check 320 px and desktop layouts for horizontal overflow.
+
+Completed workspace validation: **76 parser/database tests passed**; all 36 mapping records match the supplied specification exactly. Browser checks covered cross-series switching, embedded manual input, alternate codes, unknown/ambiguous states, details, collection persistence and toggles, history persistence and the 20-item cap, and clearing history independently of collections. No browser console errors were reported. The 320 px layout had no horizontal overflow. A generated Data Matrix was decoded with the actual pinned library. Mock lifecycle checks covered opt-in, rear-camera preference, transient decoder errors, duplicate callbacks, stopping on result/series change/background/page exit, cancelled pending permission, denied access plus manual lookup, database failure, and unavailable storage.
+
+Actual iPhone Safari and Android Chrome initialization, lens selection, tiny physical box-code focus, and hardware torch behavior still require physical-device testing. Automated and desktop checks cannot certify those hardware behaviors.
 
 ## Deploy to GitHub Pages
 
-1. Create a GitHub repository, e.g. `lego-shrek-scanner`.
-2. Upload **the contents of this directory** to the repository root (`index.html` must be at the root).
-3. In repository Settings → Pages, choose Deploy from a branch, `main`, `/ (root)`, and Save.
-4. Open `https://YOUR-USERNAME.github.io/lego-shrek-scanner/` after deployment completes. Enable Enforce HTTPS when available.
-5. Test the live HTTPS URL on an iPhone in Safari and an Android phone in Chrome, granting camera permission.
+1. Push the **contents** of this directory to the repository root (`index.html` at root).
+2. Open repository **Settings → Pages**.
+3. Select **Deploy from a branch → main → /(root) → Save**.
+4. Wait for Pages deployment and enable **Enforce HTTPS**.
+5. Open the HTTPS URL and `tests/parser-tests.html`; verify the JSON and module paths.
 
-All local URLs are relative, including the JSON, so project subpaths work. No API keys, environment variables, Actions workflow, or server are needed. Production URL: https://mlai22.github.io/lego-shrek-scanner/
+This repository already publishes `main` at https://mlai22.github.io/lego-shrek-scanner/. Commit and push changes to redeploy. All assets, imports, and JSON paths are relative, so project subpaths work without a build.
 
-GitHub repository: https://github.com/mlai22/lego-shrek-scanner
-
-GitHub Pages publishes the `main` branch repository root. Push updates to `main` to redeploy.
-
-## Use
-
-Tap **Start camera**, allow access, and point at the square Data Matrix on the bottom of an individual box. Start 10–20 cm away, use good lighting, and adjust distance for focus. The full video frame is decoded; the frame overlay is guidance. The ordinary retail barcode and printed batch code cannot identify the minifigure.
-
-A successful decode stops the camera and shows either the matched character or an explicit unknown-code result. Tap **Scan another box** to resume. A camera selector appears if multiple cameras are available. Flashlight appears only when the browser reports torch capability. If a phone selects a lens that cannot focus close up, switch cameras or move farther away. The app requests the environment-facing camera, but exact lens choice is controlled by the browser.
-
-Manual lookup accepts a seven-digit package ID or decoded text beginning with that ID. It supports whitespace, ASCII group/record separators, and optional `]d1` / `]d2` symbology identifiers. It intentionally does not extract numbers from arbitrary positions, URLs, or longer numbers. Unknown formats fail safely rather than guessing.
-
-## Data and accuracy
-
-`data/minifigures.json` ships with 12 **North American** mappings from [BrickFan’s published table](https://brick.fan/minifigures/scan), checked September 28, 2026. BrickFan cites [brick’em](https://brickem.io/cmf-scanner). These are published community mappings, not independently validated by opening physical boxes. No coverage is claimed for European or other regional IDs. Future production batches may change. No demo or fabricated codes are included.
-
-Example: `6634901` → Shrek. `6634902` → Fiona and Donkey.
-
-To update, add a sourced code to the relevant character’s `codes` array:
-
-```json
-{"value": "6634901", "region": "North America"}
-```
-
-Preserve strings, use exactly seven digits, and never assign a code to multiple characters. Update `updated`, `source`, and `verification` in JSON; update the visible coverage caption/date and README when adding other regions or sources. The loader rejects invalid schemas, empty data, malformed records, and duplicate codes. Code data is fetched once per page session with revalidation; reload after updating it. Unknown codes do not become matches through a fallback or heuristic.
-
-## Dependency and privacy
-
-[ZXing Browser](https://github.com/zxing-js/browser), version **0.1.5**, Apache-2.0, is loaded only after the user requests the camera:
-
-`https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/zxing-browser.min.js`
-
-Uses its dedicated `BrowserDatamatrixCodeReader`, not the QR-only reader. The CDN script is pinned with SHA-384 Subresource Integrity and anonymous CORS. When upgrading, download the exact file, verify its API, recompute the hash, and test physical scans. Manual lookup does not depend on the CDN.
-
-Frames are processed locally. There are no analytics, uploads, accounts, cookies, local storage, or scan history. Hosting/CDN providers receive ordinary resource requests, not camera frames or entered codes. Initial page/data and scanner loading need connectivity; offline reload is not supported. Camera tracks stop on a match, Stop, manual lookup, tab hiding, page exit, errors, and camera changes. Cancelled pending permission requests release any stream that arrives later.
-
-## Validation and release checklist
-
-The application should be checked using the actual deployment URL before public release:
-
-- iPhone Safari and Android Chrome: rear-camera selection, permission grant/denial/retry, physical Data Matrix decoding in bright/dim light, focus on small box codes.
-- Known North American box: confirm the decoded package ID and character against an opened box; check unknown-region/batch behavior.
-- Start → Stop during permission prompt; grant afterward: no live tracks remain. Repeat while switching cameras and backgrounding the page.
-- Scan result stops video; another scan restarts; torch toggles only where supported.
-- Lookup `6634901`, `6634902 123R6 12345678`, an unknown ID, an 8/13-digit retail code, and text containing a known ID in a later field.
-- Block the CDN: manual lookup works, camera shows a recoverable error. Block JSON: app shows data failure, never a guessed character; retry after restoring connectivity.
-- Narrow screens (320 px), portrait/landscape, keyboard navigation, text zoom, screen reader announcements, and reduced motion.
-
-Desktop automated/mock testing cannot certify physical camera focus, torch support, real-world recognition reliability, or Safari/Chrome mobile hardware compatibility. Workspace checks completed September 28, 2026:
-
-- JavaScript syntax check passed.
-- All 12 mappings, three decoded payload formats, malformed/embedded IDs, and unknown IDs passed automated checks.
-- Mock camera lifecycle checks passed for decode cleanup, normal no-code frames, background cleanup, cancellation while permission is pending, denied access, and malformed JSON.
-- The actual pinned ZXing Browser bundle decoded a generated Data Matrix carrying `6634901 123R6 12345678`.
-- Browser UI checks passed for Shrek, Fiona and Donkey, unknown IDs, and malformed IDs.
-- Visual review completed at 320 px and 1100 px widths; 320 px document width was confirmed without horizontal overflow.
-
-Physical phone camera and torch testing, real box verification, remain release checks.
-
-## Attribution
-
-Independent fan tool, not affiliated with the LEGO Group or DreamWorks. LEGO and Shrek are trademarks of their respective owners. No official artwork is bundled.
+Independent fan project. LEGO and character names belong to their respective owners; the LEGO Group and DreamWorks do not sponsor or endorse this application.

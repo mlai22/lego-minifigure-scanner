@@ -1,0 +1,69 @@
+{
+  "id": "shrek-71053",
+  "name": "Shrek Series",
+  "setNumber": "71053",
+  "dataVersion": "1.0",
+  "lastVerified": "2026-09-16",
+  "mappings": [
+    {
+      "code": "6634900",
+      "character": "Dragon",
+      "region": "North America"
+    },
+    {
+      "code": "6634901",
+      "character": "Shrek",
+      "region": "North America"
+    },
+    {
+      "code": "6634902",
+      "character": "Fiona and Donkey",
+      "region": "North America"
+    },
+    {
+      "code": "6634903",
+      "character": "Thelonious",
+      "region": "North America"
+    },
+    {
+      "code": "6634904",
+      "character": "Big Bad Wolf",
+      "region": "North America"
+    },
+    {
+      "code": "6634905",
+      "character": "Puss in Boots",
+      "region": "North America"
+    },
+    {
+      "code": "6634906",
+      "character": "Gingy",
+      "region": "North America"
+    },
+    {
+      "code": "6634907",
+      "character": "Merlin",
+      "region": "North America"
+    },
+    {
+      "code": "6634908",
+      "character": "Lord Farquaad",
+      "region": "North America"
+    },
+    {
+      "code": "6634909",
+      "character": "Fairy Godmother",
+      "region": "North America"
+    },
+    {
+      "code": "6634910",
+      "character": "Pinocchio",
+      "region": "North America"
+    },
+    {
+      "code": "6634911",
+      "character": "Prince Charming",
+      "region": "North America"
+    }
+  ]
+}

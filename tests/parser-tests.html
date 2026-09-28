@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Minifigure Scanner — Parser Tests</title><link rel="stylesheet" href="../style.css"></head>
+<body><main><h1>Parser & database tests</h1><p>These tests import the production parser and load every database in the registry. They do not access the camera or alter browser storage.</p><p id="summary" role="status">Running…</p><p><a href="../">Back to scanner</a></p><ol id="results"></ol></main>
+<script type="module">
+import {loadSeriesRegistry,loadAllSeriesDatabases,validateRegistry,validateDatabase,extractPackageCode,resolveScan} from '../app.js';
+const results=document.getElementById('results'); let passed=0,failed=0;
+function test(name,fn){ const li=document.createElement('li'); try{fn();li.textContent=`PASS · ${name}`;passed++;}catch(error){li.textContent=`FAIL · ${name}: ${error.message}`;failed++;} results.append(li); }
+function equal(actual,expected){if(actual!==expected)throw new Error(`Expected ${JSON.stringify(expected)}, received ${JSON.stringify(actual)}`);}
+function throws(fn){let thrown=false;try{fn();}catch{thrown=true;}if(!thrown)throw new Error('Expected validation to fail');}
+try{
+ const registry=await loadSeriesRegistry('../'); const {databases,failures}=await loadAllSeriesDatabases(registry,'../');
+ test('Every registry database loads',()=>equal(failures.length,0));
+ for(const db of databases){
+   test(`${db.name}: no contradictory duplicate codes`,()=>equal(new Set(db.mappings.map(m=>m.code)).size,db.mappings.length));
+   for(const m of db.mappings){test(`${db.name} ${m.code} → ${m.character}`,()=>{const r=resolveScan(m.code,db.id,databases);equal(r.state,'FOUND');equal(r.match.character,m.character);equal(r.match.region,m.region);equal(r.match.sourceGroup,m.sourceGroup);});}
+ }
+ const shrek='shrek-71053',series29='series-29-71052';
+ const cases=[['6634901',shrek,'Shrek'],['6634908',shrek,'Lord Farquaad'],['6603331',series29,'Robot T. rex'],['6605257',series29,'Robot T. rex'],['6603327',series29,'Mysterious Ronin'],['6605253',series29,'Mysterious Ronin'],['ABC 6603325 XYZ',series29,'BIONICLE Cosplayer'],['batch:123;code=6605255;factory:test',series29,'Cute Witch'],['ABC6603327XYZ123',series29,'Mysterious Ronin'],['batch:123;code=6634908;factory:test',shrek,'Lord Farquaad'],['\n\t6634901\r\n',shrek,'Shrek'],[']d26634901\x1d123R6',shrek,'Shrek']];
+ for(const [raw,id,name]of cases)test(`Payload ${JSON.stringify(raw)}`,()=>equal(resolveScan(raw,id,databases).match.character,name));
+ test('Unknown code',()=>equal(resolveScan('9999999',shrek,databases).state,'UNKNOWN_CODE'));
+ for(const raw of ['', ' \n\t',null,12345,'x'.repeat(8193)])test(`Invalid input ${String(raw).slice(0,24)}`,()=>equal(resolveScan(raw,shrek,databases).state,'SCANNER_ERROR'));
+ for(const raw of ['<script>alert(1)<\/script>','16634901','66349010','9786634901123','66-34901'])test(`Malformed input ${raw}`,()=>equal(resolveScan(raw,shrek,databases).state,'UNKNOWN_CODE'));
+ test('Cross-series fallback',()=>{const r=resolveScan('6634901',series29,databases);equal(r.state,'DIFFERENT_SERIES');equal(r.match.seriesId,shrek);});
+ test('Two known codes never guessed',()=>equal(resolveScan('6634901 6603327',shrek,databases).state,'AMBIGUOUS_CODE'));
+ test('Repeated occurrence of the same code is a single match',()=>equal(resolveScan('6634901;6634901',shrek,databases).state,'FOUND'));
+ const db=databases.find(d=>d.id===shrek),record=registry.find(s=>s.id===shrek);
+ test('Parser returns a single embedded code',()=>equal(extractPackageCode('ABC6634901XYZ',db.mappings),'6634901'));
+ test('Parser returns null for ambiguity',()=>equal(extractPackageCode('6634901 6634908',db.mappings),null));
+ test('Exact duplicate row is deduplicated',()=>equal(validateDatabase({...db,mappings:[db.mappings[0],db.mappings[0]]},record).mappings.length,1));
+ test('Conflicting duplicate code is ambiguous',()=>{const bad=validateDatabase({...db,mappings:[db.mappings[0],{...db.mappings[0],character:'Conflicting test fixture'}]},record);equal(resolveScan(db.mappings[0].code,shrek,[bad]).state,'AMBIGUOUS_CODE');});
+ test('Cross-series collision is ambiguous even in selected series',()=>{const other={...db,id:'test-only-series'};equal(resolveScan(db.mappings[0].code,shrek,[db,other]).state,'AMBIGUOUS_CODE');});
+ test('Empty database is supported',()=>{const empty=validateDatabase({...db,mappings:[]},record);equal(resolveScan('6634901',shrek,[empty]).state,'UNKNOWN_CODE');});
+ test('New series needs no parser changes',()=>{const future={...db,id:'fixture-future',name:'Fixture Future',mappings:[db.mappings[0]]};equal(resolveScan(db.mappings[0].code,future.id,[future]).state,'FOUND');});
+ test('Invalid mapping rejected',()=>throws(()=>validateDatabase({...db,mappings:[{code:'123',character:'Invalid',region:'Test'}]},record)));
+ test('Wrong database identity rejected',()=>throws(()=>validateDatabase({...db,id:'wrong'},record)));
+ test('Duplicate registry entries rejected',()=>throws(()=>validateRegistry({series:[record,record]})));
+ test('External database path rejected',()=>throws(()=>validateRegistry({series:[{...record,dataFile:'https://example.com/data.json'}]})));
+}catch(error){test('Database setup',()=>{throw error;});}
+document.getElementById('summary').textContent=`${passed} passed · ${failed} failed`;
+document.title=`${failed?'FAIL':'PASS'} — ${passed} parser tests`;
+</script></body></html>

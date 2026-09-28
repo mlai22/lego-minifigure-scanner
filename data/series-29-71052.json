@@ -1,0 +1,153 @@
+{
+  "id": "series-29-71052",
+  "name": "Series 29",
+  "setNumber": "71052",
+  "dataVersion": "1.0",
+  "lastVerified": "2026-09",
+  "mappings": [
+    {
+      "code": "6603331",
+      "character": "Robot T. rex",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605257",
+      "character": "Robot T. rex",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603321",
+      "character": "Marine Biologist",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605247",
+      "character": "Marine Biologist",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603325",
+      "character": "BIONICLE Cosplayer",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605251",
+      "character": "BIONICLE Cosplayer",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603328",
+      "character": "Monster Hunter",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605254",
+      "character": "Monster Hunter",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603324",
+      "character": "Boba Cup Fan",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605250",
+      "character": "Boba Cup Fan",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603330",
+      "character": "Trash Monster",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605256",
+      "character": "Trash Monster",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603323",
+      "character": "Chocolatier",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605249",
+      "character": "Chocolatier",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603322",
+      "character": "Tuba Player",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605248",
+      "character": "Tuba Player",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603320",
+      "character": "Football Goalkeeper",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605246",
+      "character": "Football Goalkeeper",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603329",
+      "character": "Cute Witch",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605255",
+      "character": "Cute Witch",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603327",
+      "character": "Mysterious Ronin",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605253",
+      "character": "Mysterious Ronin",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6603326",
+      "character": "Unicorn Elf",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-A"
+    },
+    {
+      "code": "6605252",
+      "character": "Unicorn Elf",
+      "region": "UK / Europe",
+      "sourceGroup": "EU-B"
+    }
+  ]
+}

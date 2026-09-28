@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "series": "71053",
+  "updated": "2026-09-28",
+  "source": "https://brick.fan/minifigures/scan",
+  "verification": "Published community mappings; not independently verified by opening boxes. North America only. Other batches may be unknown.",
+  "minifigures": [
+    {
+      "id": "dragon",
+      "name": "Dragon",
+      "codes": [
+        {
+          "value": "6634900",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "shrek",
+      "name": "Shrek",
+      "codes": [
+        {
+          "value": "6634901",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "fiona-and-donkey",
+      "name": "Fiona and Donkey",
+      "codes": [
+        {
+          "value": "6634902",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "thelonious",
+      "name": "Thelonious",
+      "codes": [
+        {
+          "value": "6634903",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "big-bad-wolf",
+      "name": "Big Bad Wolf",
+      "codes": [
+        {
+          "value": "6634904",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "puss-in-boots",
+      "name": "Puss in Boots",
+      "codes": [
+        {
+          "value": "6634905",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "gingy",
+      "name": "Gingy",
+      "codes": [
+        {
+          "value": "6634906",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "merlin",
+      "name": "Merlin",
+      "codes": [
+        {
+          "value": "6634907",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "lord-farquaad",
+      "name": "Lord Farquaad",
+      "codes": [
+        {
+          "value": "6634908",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "fairy-godmother",
+      "name": "Fairy Godmother",
+      "codes": [
+        {
+          "value": "6634909",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "pinocchio",
+      "name": "Pinocchio",
+      "codes": [
+        {
+          "value": "6634910",
+          "region": "North America"
+        }
+      ]
+    },
+    {
+      "id": "prince-charming",
+      "name": "Prince Charming",
+      "codes": [
+        {
+          "value": "6634911",
+          "region": "North America"
+        }
+      ]
+    }
+  ]
+}

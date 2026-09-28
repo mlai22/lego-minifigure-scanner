@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#193e2b">
+  <meta name="description" content="Scan LEGO Shrek Series 71053 Data Matrix codes to identify the minifigure inside. Free, private, and built for your phone.">
+  <title>LEGO Shrek Minifigure Scanner</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23193e2b'/%3E%3Cpath d='M7 13V7h6m6 0h6v6M7 19v6h6m6 0h6v-6' fill='none' stroke='%23c1ef73' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <header class="masthead"><a class="brand" href="./" aria-label="Shrek scanner home"><span class="brand-icon" aria-hidden="true">⌗</span><span>MINIFIG FINDER<small>THE SHREK EDITION</small></span></a><a class="help-link" href="#how-to">How to scan <span aria-hidden="true">↗</span></a></header>
+  <main>
+    <div class="intro"><span class="eyebrow">LEGO® MINIFIGURES · SERIES 71053</span><h1>A little less mystery.<br><span>A little more Shrek.</span></h1><p>Scan the bottom of your box. Find out who’s inside.</p></div>
+    <div class="workspace">
+      <section class="scanner" aria-labelledby="scanner-title">
+        <div class="panel-heading"><h2 id="scanner-title">Minifigure scanner</h2><span class="pill" id="camera-state">Camera off</span></div>
+        <div class="viewfinder" id="viewfinder">
+          <video id="video" muted playsinline autoplay aria-label="Live rear camera preview" hidden></video>
+          <div class="reticle" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="camera-placeholder" id="placeholder"><span class="scan-symbol" aria-hidden="true">⌗</span><strong>Your next character<br>is one scan away.</strong><span>Place the square Data Matrix code<br>inside the frame.</span></div>
+          <span class="view-label">BOTTOM OF BOX · DATA MATRIX</span>
+        </div>
+        <div class="scanner-controls"><button id="start" class="primary" type="button">Start camera <span aria-hidden="true">↗</span></button><button id="stop" class="secondary" type="button" hidden>Stop camera</button><button id="torch" class="secondary" type="button" aria-pressed="false" hidden>Flashlight off</button></div>
+        <div id="camera-choice" class="camera-choice" hidden><label for="camera">Camera</label><select id="camera"></select></div>
+        <p id="status" class="status" role="status" aria-live="polite">Tap Start camera and allow camera access.</p>
+        <p class="privacy"><span aria-hidden="true">◉</span> Camera frames stay on your device.</p>
+      </section>
+      <aside class="side-panel">
+        <section id="result" class="result" aria-live="polite" aria-atomic="true" aria-labelledby="result-title" tabindex="-1"><span class="eyebrow" id="result-label">THE BIG REVEAL</span><div class="result-icon" id="result-icon" aria-hidden="true">?</div><h2 id="result-title">Who’s in your box?</h2><p id="result-description">Start a scan or enter a code below to meet your minifigure.</p><p id="result-code" class="code" hidden></p><button id="again" class="secondary" type="button" hidden>Scan another box <span aria-hidden="true">↗</span></button></section>
+        <section class="manual"><h2>Already have a code?</h2><p>Paste decoded scan text or its first 7-digit number.</p><form id="lookup"><label class="sr-only" for="code">Decoded Data Matrix text or 7-digit package code</label><div class="input-row"><input id="code" type="text" placeholder="e.g. 6634901" maxlength="2048" autocomplete="off" spellcheck="false" required aria-describedby="manual-hint"><button type="submit" aria-label="Look up code">Find <span aria-hidden="true">→</span></button></div></form><small id="manual-hint">The retail barcode and batch number won’t work.</small></section>
+      </aside>
+    </div>
+    <section class="tips" id="how-to" aria-labelledby="tips-title"><div><span class="eyebrow">A QUICK FIELD GUIDE</span><h2 id="tips-title">Flip. Frame. Find.</h2></div><ol><li><span>01</span><div><h3>Flip the box</h3><p>Find the square Data Matrix code on the bottom, next to the retail barcode.</p></div></li><li><span>02</span><div><h3>Give it some space</h3><p>Start about 10–20 cm away. Keep the box steady in good light and let the camera focus.</p></div></li><li><span>03</span><div><h3>Meet your minifigure</h3><p>A recognized code reveals the character. Scan another box to keep looking.</p></div></li></ol></section>
+    <details class="coverage"><summary>Supported codes & accuracy <span id="coverage-count"></span></summary><p>Coverage varies by region and production batch. These are published community mappings, not a guarantee of box contents. Unknown codes are never guessed.</p><p id="data-status" role="status">Loading code list…</p><button id="retry-data" class="secondary" type="button" hidden>Retry loading codes</button><div class="table-wrap"><table><caption>Shrek Series 71053 · North America</caption><thead><tr><th scope="col">Character</th><th scope="col">Package code</th></tr></thead><tbody id="code-list"></tbody></table></div><p>Source: <a href="https://brick.fan/minifigures/scan" target="_blank" rel="noopener noreferrer">BrickFan published mappings ↗</a> · Checked September 28, 2026.</p></details>
+  </main>
+  <footer><strong>Small boxes. Big personalities.</strong><p>Independent fan tool. Not affiliated with or endorsed by the LEGO Group or DreamWorks. LEGO and Shrek belong to their respective owners.</p></footer>
+  <noscript><p class="noscript">JavaScript is required for camera scanning and code lookup. Please enable it and reload.</p></noscript>
+</body>
+</html>

@@ -2,11 +2,11 @@
 
 A mobile-first static application for identifying LEGO Collectible Minifigure blind boxes using their Data Matrix codes. Choose a series, start the rear camera, and scan a square code. Manual entry uses the same parser. Unique matches from other registered series offer a switch; ambiguous or unknown codes never guess a character.
 
-**Live site:** https://mlai22.github.io/lego-minifigure-scanner/
+**Live site:** https://mlai22.github.io/lego-shrek-scanner/
 
-**Repository:** https://github.com/mlai22/lego-minifigure-scanner
+**Repository:** https://github.com/mlai22/lego-shrek-scanner
 
-The repository and application now use the general-purpose `lego-minifigure-scanner` name. Use the live URL above instead of the former Shrek-specific URL.
+The application and local project use the general-purpose `lego-minifigure-scanner` name. The existing GitHub repository and Pages URL retain their original name.
 
 ## Stack and files
 
@@ -112,6 +112,6 @@ Actual iPhone Safari and Android Chrome initialization, lens selection, tiny phy
 4. Wait for Pages deployment and enable **Enforce HTTPS**.
 5. Open the HTTPS URL and `tests/parser-tests.html`; verify the JSON and module paths.
 
-This repository already publishes `main` at https://mlai22.github.io/lego-minifigure-scanner/. Commit and push changes to redeploy. All assets, imports, and JSON paths are relative, so project subpaths work without a build.
+This repository already publishes `main` at https://mlai22.github.io/lego-shrek-scanner/. Commit and push changes to redeploy. All assets, imports, and JSON paths are relative, so project subpaths work without a build.
 
 Independent fan project. LEGO and character names belong to their respective owners; the LEGO Group and DreamWorks do not sponsor or endorse this application.

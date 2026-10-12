@@ -176,6 +176,7 @@ function renderScanner() {
   text('coverage', !database ? 'Database unavailable. Retry loading above.' : !database.mappings.length ?
     'Package code data for this series has not been added yet.' :
     `${database.mappings.length} published codes · ${[...new Set(database.mappings.map(mapping => mapping.region))].join(' · ')}. Other production batches may be unknown.`);
+  if (database?.coverageNote) $('coverage').append(document.createTextNode(` ${database.coverageNote}`));
   cameraStatus('Point the camera at the square Data Matrix code on the bottom of the box.');
   renderCollection(); renderDetails(); updateLookupControls();
 }

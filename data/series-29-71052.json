@@ -2,8 +2,8 @@
   "id": "series-29-71052",
   "name": "Series 29",
   "setNumber": "71052",
-  "dataVersion": "1.0",
-  "lastVerified": "2026-09",
+  "dataVersion": "1.1",
+  "lastVerified": "2026-10-12",
   "mappings": [
     {
       "code": "6603331",
@@ -148,6 +148,82 @@
       "character": "Unicorn Elf",
       "region": "UK / Europe",
       "sourceGroup": "EU-B"
+    },
+    {
+      "code": "6605259",
+      "character": "Football Goalkeeper",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    },
+    {
+      "code": "6605260",
+      "character": "Marine Biologist",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    },
+    {
+      "code": "6605261",
+      "character": "Tuba Player",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    },
+    {
+      "code": "6605262",
+      "character": "Chocolatier",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    },
+    {
+      "code": "6605263",
+      "character": "Boba Cup Fan",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    },
+    {
+      "code": "6605264",
+      "character": "BIONICLE Cosplayer",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    },
+    {
+      "code": "6605266",
+      "character": "Mysterious Ronin",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    },
+    {
+      "code": "6605268",
+      "character": "Cute Witch",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    },
+    {
+      "code": "6605269",
+      "character": "Trash Monster",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    },
+    {
+      "code": "6605270",
+      "character": "Robot T. rex",
+      "region": "North America",
+      "sourceGroup": "NA-R"
+    }
+  ],
+  "verificationNote": "Published-source cross-check only; not physically verified. Original EU mappings retained. Ten corroborated North American codes added; conflicting reports for 6605265 and 6605267 are excluded.",
+  "coverageNote": "US coverage: 10 of 12 characters. Monster Hunter and Unicorn Elf US codes remain unconfirmed because published reports conflict.",
+  "sources": [
+    {
+      "url": "https://github.com/le0pard/lego-scanner/blob/main/src/lib/data/series-29.json",
+      "role": "Factory R mappings corroborated against collector reports; conflicting pair excluded."
+    },
+    {
+      "url": "https://www.reddit.com/r/lego/comments/1t22o1p/cmf_series_29_code_sharing_thread/",
+      "role": "US collector scan payloads and opened-box reports."
+    },
+    {
+      "url": "https://www.allspark.com/home/threads/lego-and-other-brick-toys.258/page-11",
+      "role": "Opened US box reports for Chocolatier and Trash Monster, plus corroborating codes."
     }
   ]
 }
